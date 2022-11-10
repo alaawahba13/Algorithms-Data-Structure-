@@ -8,3 +8,6 @@ void mergesort(int arr[], int l, int r) ;
 
 void quick_sort(int arr[],int low, int high);
 int partition(int arr[],int low,int high);
+void MaxHeapify(int arr[], int n, int i);
+void buildHeap(int arr[], int n);
+void HeapSort(int arr[], int n);

@@ -10,10 +10,10 @@
 
 void Bubble_Sort(int arr[], int arr_length){
 int sort_flag = 0;
-	for(int i =0 ; i <arr_length-1 ; i++){
-		  for(int j = i+1 ; j < arr_length ; j++){
-			  if(arr[j] < arr[i]){
-				  swap(&arr[j] , &arr[i]);
+	for(int i =0 ; i <arr_length ; i++){
+		  for(int j = 0 ; j < arr_length-1-i ; j++){
+			  if(arr[j] > arr[j+1]){
+				  swap(&arr[j] , &arr[j+1]);
 				  sort_flag = 1;
 			  }
 		  }

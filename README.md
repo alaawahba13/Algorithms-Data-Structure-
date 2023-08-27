@@ -1,6 +1,6 @@
 # Algorithms
 
-Implmenting different algorithms using C programming 
+Implmenting different algorithms & Data structures using C programming 
 
 /** author
     alaa wahba

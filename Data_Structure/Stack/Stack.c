@@ -5,124 +5,98 @@
  * @return value to indicate if it's intialized
  */
 
-ret_status intialize(Stack *my_stack)
-{
-    ret_status ret;
-    if(my_stack == NULL)
-    {
-        ret =NOK;
-    }
-    else
-    {
-		// stack pointer points to top of empty stack 
-        my_stack->ptr = -1;
-        ret = OK;
-    }
-    return ret;
+ret_status LIFO_init(Stack *my_stack) {
+	ret_status ret;
+	if (my_stack->head == NULL) {
+		ret = NOK;
+	} else {
+		// stack counter indicates empty stack
+		my_stack->count = -1;
+		ret = OK;
+	}
+	return ret;
 
 }
-
-static _Bool isFull(Stack *my_stack)
-{
-    if(my_stack->ptr == MAX_SIZE-1)
-    {
-        return true;
-    }
-    else
-    {
-        return false;
-    }
+ret_status Stack_isEmpty(Stack *my_stack){
+	if (my_stack->count ==  -1) {
+			return EMPTY;
+		} else {
+			return N_EMPTY;
+		}
+}
+ret_status Stack_isFull(Stack *my_stack) {
+	if (my_stack->count == my_stack->MAX_SIZE - 1) {
+		return FULL;
+	} else {
+		return N_FULL;
+	}
 }
 
-static _Bool isEmpty(Stack *my_stack)
-{
-    if(my_stack->ptr == -1)
-    {
-        return true;
-    }
-    else
-    {
-        return false;
-    }
+ret_status LIFO_push(Stack *my_stack, u32 data) {
+	ret_status ret = NOK;
+	if (my_stack == NULL || Stack_isFull(my_stack) == FULL) {
+		printf("Failed to push\n");
+		ret = NOK;
+	} else {
+		*(my_stack->head) = data;
+		my_stack->head++;
+		my_stack->count++;
+		ret = OK;
+		printf("Value pushed is %i\n", data);
 
+	}
+	return ret;
 }
 
-ret_status push(Stack *my_stack, u32 data)
-{
-    ret_status ret = NOK;
-    if(my_stack == NULL || isFull(my_stack) == true )
-    {
-        printf("Failed to push");
-        ret = NOK;
-    }
-    else
-    {
-        my_stack->ptr++;
-        my_stack->stack_arr[my_stack->ptr] = data;
-        ret = OK;
+ret_status LIFO_pop(Stack *my_stack, u32 *data) {
+	ret_status ret = NOK;
+	if (my_stack == NULL || Stack_isEmpty(my_stack) == EMPTY) {
+		printf("Failed to pop\n");
+		ret = NOK;
+	} else {
+		my_stack->head--;
+		*data = *(my_stack->head);
+		my_stack->count--;
+		printf("Value popped is %i\n", *data);
+		ret = OK;
+	}
+	return ret;
+}
+ret_status LIFO_top(Stack *my_stack, u32 *data) {
+	ret_status ret = NOK;
+	if (my_stack == NULL || Stack_isEmpty(my_stack) == EMPTY) {
+		printf("No top found\n");
+		ret = NOK;
+	} else {
+		my_stack->head--;
+		*data = *(my_stack->head);
+		my_stack->head++;
 
-    }
-    return ret;
+		printf("Top Value is %i\n", *data);
+		ret = OK;
+	}
+	return ret;
 }
+void print_stack(Stack *my_stack) {
+	if (my_stack == NULL || Stack_isEmpty(my_stack) == EMPTY) {
+		printf("EMPTY STACK");
+	} else {
+		u8 *ptr;
+		ptr= my_stack->head;
+		printf("Stack values : ");
+		for (u32 i = 0 ; i <= my_stack->count ; i++) {
+			printf("%d ", *(--ptr));
+		}
+		printf("\n");
 
-ret_status pop(Stack *my_stack, u32 *data)
-{
-    ret_status ret = NOK;
-    if(my_stack == NULL || isEmpty(my_stack) == true)
-    {
-        printf("Failed to pop");
-        ret = NOK;
-    }
-    else
-    {
-        *data = my_stack->stack_arr[my_stack->ptr];
-        my_stack->ptr--;
-        printf("Value popped is %i\n", *data);
-        ret = OK;
-    }
-    return ret;
+	}
 }
-ret_status top(Stack *my_stack, u32 *data)
-{
-    ret_status ret = NOK;
-    if(my_stack == NULL || isEmpty(my_stack) == true)
-    {
-        printf("No top found");
-        ret = NOK;
-    }
-    else
-    {
-        *data = my_stack->stack_arr[my_stack->ptr];
-        printf("Top Value is %i\n", *data);
-        ret = OK;
-    }
-    return ret;
-}
-void print_stack(Stack *my_stack)
-{
-    if((my_stack == NULL) || (isEmpty(my_stack) == true))
-    {
-        printf("Error");
-    }
-    else
-    {
-      printf("Stack values : ");
-      for(u32 i=my_stack->ptr; i>0 ; i--){
-        printf("%d ", my_stack->stack_arr[i]);
-      }
-
-    }
-}
-u32 sizee(Stack *my_stack)
-{
-    u32 size=0;
-    if(my_stack == NULL )
-    {
-        printf("Error");
-    }
-    else
-    {
-        size = my_stack->ptr +1;
-    }
-    return size;
+u32 LIFO_getSize(Stack *my_stack) {
+	u32 size = 0;
+	if (my_stack == NULL) {
+		printf("Error\n");
+	} else {
+		size = my_stack->count + 1;
+	}
+	return size;
 }
